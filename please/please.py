@@ -205,19 +205,21 @@ def changetimeformat() -> None:
         config["time_format_24h"] = False
     write_config(config)
 
-
+table_color = "#ffffff"  # "#e85d04"
+title_color = "#ffffff"  # "grey39"
+no_tasks_color = "#ffffff"  # "#61e294"
 @app.command(short_help="Show all Tasks")
 def showtasks() -> None:
     task_num = config["tasks"]
     table1 = Table(
         title="Tasks",
-        title_style="grey39",
-        header_style="#e85d04",
-        style="#e85d04 bold",
+        title_style=f"{title_color}",
+        header_style=f"{table_color}",
+        style=f"{table_color} bold",
     )
-    table1.add_column("Number", style="#e85d04")
-    table1.add_column("Task")
-    table1.add_column("Status")
+    table1.add_column("No.", justify="center")  # Deleted orange color, because it wasn't applied anywhere
+    table1.add_column("Task", justify="center")  # Changed "Number" to "No." so one digit numbers are ideally centered
+    table1.add_column("Status", justify="center")  # Added justifying text in columns
 
     if len(task_num) == 0:
         center_print(table1)
@@ -243,7 +245,7 @@ def print_tasks(forced_print: bool = False) -> None:
     if not all_tasks_done() or forced_print:
         showtasks()
     else:
-        center_print("[#61E294]Looking good, no pending tasks 😁[/]")
+        center_print(f"[{no_tasks_color}]Looking good, no pending tasks 😁[/]")
 
 
 def getquotes() -> dict:
